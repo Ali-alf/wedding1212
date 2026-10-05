@@ -418,32 +418,35 @@
             window.addEventListener('scroll', revealSections);
 
             window.submitRSVP = function(answer) {
-                const resultDiv = document.getElementById('rsvp-result');
-                const TOKEN = '8851765773:AAGlOI-ZAiuH91UY5JNil_7OdXnlY2Ex_6c';
-                const CHAT_ID = '1856771138';
-                
-                let guestName = prompt('Напишите ваше имя:', '');
-                if (!guestName) guestName = 'Без имени';
-                
-                if (answer === 'yes') {
-                    resultDiv.innerHTML = "🎉 Спасибо, " + guestName + "! Ждем вас на нашем празднике!";
-                } else {
-                    resultDiv.innerHTML = "😔 Спасибо за ответ, " + guestName + ". Нам будет вас не хватать!";
-                }
-                resultDiv.style.display = 'block';
-                
-                const text = '🎉 Ответ на свадьбу!\n👤 ' + guestName + '\n✅ ' + (answer === 'yes' ? 'Приду' : 'Не смогу');
-                
-                fetch('https://api.telegram.org/bot' + TOKEN + '/sendMessage?chat_id=' + CHAT_ID + '&text=' + encodeURIComponent(text))
-                    .then(r => r.json())
-                    .then(data => console.log('Отправлено:', data))
-                    .catch(err => console.log('Ошибка:', err));
-                
-                document.querySelectorAll('.rsvp-btn').forEach(btn => {
-                    btn.disabled = true;
-                    btn.style.opacity = '0.6';
-                });
-            };
+    const resultDiv = document.getElementById('rsvp-result');
+    const TOKEN = '8851765773:AAGlOI-ZAiuH91UY5JNil_7OdXnlY2Ex_6c';
+    const CHAT_ID = '1856771138';
+    
+    let guestName = prompt('Напишите ваше имя:', '');
+    if (!guestName) guestName = 'Без имени';
+    
+    if (answer === 'yes') {
+        resultDiv.innerHTML = "🎉 Спасибо, " + guestName + "! Ждем вас на нашем празднике!";
+    } else {
+        resultDiv.innerHTML = "😔 Спасибо за ответ, " + guestName + ". Нам будет вас не хватать!";
+    }
+    resultDiv.style.display = 'block';
+    
+    const text = 
+        '🎉 Новый ответ на свадьбу!\n' +
+        '👤 ' + guestName + '\n' +
+        (answer === 'yes' ? '✅ Приду' : '❌ Не смогу');
+    
+    fetch('https://api.telegram.org/bot' + TOKEN + '/sendMessage?chat_id=' + CHAT_ID + '&text=' + encodeURIComponent(text))
+        .then(r => r.json())
+        .then(data => console.log('Отправлено:', data))
+        .catch(err => console.log('Ошибка:', err));
+    
+    document.querySelectorAll('.rsvp-btn').forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+    });
+};
         });
     </script>
 </body>
